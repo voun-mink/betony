@@ -1,0 +1,113 @@
+@font-face {
+  font-family: 'Rubik Mono One';
+  src: url('./font/Rubik\ Mono\ One/RubikMonoOne-Regular.ttf');
+}
+@font-face {
+  font-family: 'Jura-Light';
+  src: url('./font/Jura/Jura-Light.ttf');
+}
+@font-face {
+  font-family: 'Jura-Regular';
+  src: url('./font/Jura/Jura-Regular.ttf');
+}
+@font-face {
+  font-family: 'Jura-Medium';
+  src: url('./font/Jura/Jura-Medium.ttf');
+}
+
+.w-100 {
+  width: 100vw;
+}
+.w-20-p {
+  width: 20%;
+}
+.w-80-p {
+  width: 80%;
+}
+.w-90-p {
+  width: 90%;
+}
+.w-100-p {
+  width: 100%;
+}
+
+.h-100 {
+  height: 100vh;
+}
+.d-f {
+  display: flex;
+}
+.h-95-p {
+  height: 95%;
+}
+.h-5-p {
+  height: 5%;
+}
+
+.b-1-s-g {
+  border: 2px solid rgb(182, 182, 182);
+}
+
+.t-a-c {
+  text-align: center;
+}
+
+.f-f-r-m-o-r {
+  font-family: 'Rubik Mono One';
+}
+.f-f-j-l {
+  font-family: 'Jura-Light';
+}
+.f-f-j-R {
+  font-family: 'Jura-Regular';
+}
+.f-f-j-M {
+  font-family: 'Jura-Medium';
+}
+.f-s-100 {
+  font-size: 100px;
+}
+.f-s-20 {
+  font-size: 24px;
+}
+
+.l-s-1 {
+  letter-spacing: 1px;
+}
+
+.f-w-n {
+  font-weight: normal;
+}
+
+.c-d2 {
+  color: #D2AB80;
+}
+.c-e5 {
+  color: #E5D2B8;
+}
+.c-72 {
+  color: #725C3A;
+}
+.c-w {
+  color: white;
+}
+
+.b-n {
+  border: none;
+}
+
+.b-r {
+  border-radius: 5px;
+}
+
+.b-c-80 {
+  background-color: #809570;
+}
+
+.w-450 {
+  width: 450px;
+}
+
+.h-40 {
+  height: 40px;
+}
