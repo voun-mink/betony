@@ -18,6 +18,9 @@
 .w-100 {
   width: 100vw;
 }
+.w-10-p {
+  width: 10%;
+}
 .w-20-p {
   width: 20%;
 }
@@ -34,8 +37,32 @@
 .h-100 {
   height: 100vh;
 }
+.h-5-p {
+  height: 5%;
+}
+.h-7-p {
+  height: 7%;
+}
+.h-10-p {
+  height: 10%;
+}
+.h-90-p {
+  height: 90%;
+}
+.h-93-p {
+  height: 93%;
+}
+.h-95-p {
+  height: 95%;
+}
+.h-100-p {
+  height: 100%;
+}
 .d-f {
   display: flex;
+}
+.d-b {
+  display: block;
 }
 .h-95-p {
   height: 95%;
@@ -67,16 +94,39 @@
 .f-s-100 {
   font-size: 100px;
 }
-.f-s-20 {
+.f-s-14 {
+  font-size: 14px;
+}
+.f-s-24 {
   font-size: 24px;
 }
+.f-s-30 {
+  font-size: 16px;
+}
+
 
 .l-s-1 {
   letter-spacing: 1px;
 }
 
+.l-s-10 {
+  letter-spacing: 1px;
+}
+
 .f-w-n {
   font-weight: normal;
+}
+
+.f-w-500 {
+  font-weight: 600;
+}
+
+.m-t-5-p {
+  margin-top: 3%;
+}
+
+.m-t-20-p {
+  margin-top: 25%;
 }
 
 .c-d2 {
@@ -100,14 +150,131 @@
   border-radius: 5px;
 }
 
+.b-1-s-72 {
+  border: 1px solid #725C3A;
+}
+
 .b-c-80 {
   background-color: #809570;
+}
+
+.b-c-E5 {
+  background-color: #E5E0D8;
+}
+
+.b-c-B3 {
+  background-color: #B3B792;
 }
 
 .w-450 {
   width: 450px;
 }
 
+.w-m-c {
+  width: max-content;
+}
+
+.h-30 {
+  height: 30px;
+}
+
 .h-40 {
   height: 40px;
+}
+
+.h-60 {
+  height: 60px;
+}
+
+.l-h-1 {
+  line-height: 1;
+}
+
+.m-t-5 {
+  margin-top: -5px;
+}
+
+.m-t--3 {
+  margin-top: -3px;
+}
+
+.m-b-10 {
+  margin-bottom: 10px;
+}
+
+.c-p {
+  cursor: pointer;
+}
+
+.input {
+  outline: none;
+}
+
+.m-5 {
+  margin: 5px;
+}
+
+.m-10 {
+  margin: 10px;
+}
+
+.o-w-b-w {
+  overflow-wrap: break-word
+}
+
+.w-b-b-a {
+  word-break: break-all;
+}
+
+.f-d-c {
+  flex-direction: column;
+}
+
+.a-s-f-s {
+  align-self: flex-start;
+}
+
+.f-n {
+  flex: none;
+}
+
+.f-g-1 {
+  flex-grow: 1;
+}
+
+.f-b-a {
+  flex-basis: auto;
+}
+
+.j-c-s-b {
+  justify-content: space-between;
+}
+.j-c-c {
+  justify-content: center;
+}
+
+.m-l-10 {
+  margin-left: 10px;
+}
+
+.m-r-10 {
+  margin-right: 10px;
+}
+
+.p-l-10 {
+  padding-left: 10px;
+}
+
+.p-r-10 {
+  padding-right: 10px;
+}
+
+.p-5 {
+  padding: 5px;
+}
+.p-10 {
+  padding: 10px;
+}
+.p-t-20-p {
+  padding-top: 20%;
 }

@@ -1,32 +1,101 @@
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Messenger from './component/messenger/messenger';
 
 const socket = new WebSocket('ws://localhost:8999');
 
 function App() {
 
+  const messengerRef = useRef();
+
   const [clientID, setClientID] = useState('');
+  const [saveSession, setSaveSession] = useState(false);
 
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  let identStr = "";
-
-  const changeSetClientID = () => {
-    setClientID(identStr);
+  const changeSetClientID = (id) => {
+    setClientID(id);
   };
 
-  const createIdentStr = () => {
-    for (const n of [0,1,2,3,4,5,6,7,8,9,10,11,12]) {
-      let randomIndex = Math.floor(Math.random() * alphabet.length);
-      identStr += `${randomIndex}${alphabet[randomIndex]}`;
+  function getCookie(name) {
+    const cookieString = document.cookie;
+    const cookies = cookieString.split('; ');
+    const targetCookie = cookies.find(cookie => cookie.startsWith(name + '='));
+
+    if (targetCookie) {
+        return targetCookie.split('=')[1];
     }
-  };
+    return null;
+  }
+
+  useEffect(() => {
+
+    const handleRemove = (e) => {
+      localStorage.setItem('reloaded', 'true');
+    };
+
+    const handleLoad = () => {
+      const reloaded = localStorage.getItem('reloaded');
+
+      if (reloaded === 'true') {
+        const saveState = getCookie('save-betony');
+        if (saveState == 'true') {
+          const currentClientID = getCookie('auth-betony');
+
+          setSaveSession(true);
+          setClientID(currentClientID);
+        }
+        localStorage.removeItem('reloaded');
+      }
+    }
+
+    window.addEventListener('beforeunload', handleRemove);
+
+    if (document.readyState === "complete") {
+      handleLoad();
+    } else {
+      window.addEventListener('load', handleLoad);
+      return () => document.removeEventListener('load', handleLoad);
+    }
+
+    return () => {
+      window.removeEventListener('beforeunload', handleRemove);
+    }
+  }, []);
 
   socket.onopen = function() {
-    console.log(2);
+    const currentClientID = getCookie('auth-betony');
+    
+    if (!saveSession && currentClientID == null) {
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({
+          type: 'connection',
+          clientID: currentClientID
+        }));
+      }
+    }
+
   };
+
+  socket.onmessage = function(event) {
+    let data = JSON.parse(event.data);
+
+    if (data.type == 'connection') {
+      changeSetClientID(data.clientID);
+    }
+
+    if (data.type == 'offer_contact') {
+      messengerRef.current.changeSetContactProvidersIDs(data.interlocutorID);
+    }
+
+    if (data.type == 'offer_approval') {
+      messengerRef.current.changeSetInterlocutors(data.interlocutorID);
+    }
+
+    if (data.type == 'message') {
+      messengerRef.current.changeSMH(data.interlocutorID, data.message);
+    }
+  }
 
   socket.onclose = function(event) {
     console.log('Соединение закрыто');
@@ -36,32 +105,33 @@ function App() {
     console.log(`Ошибка: ${error.message}`);
   };
 
-  useEffect(() => {
-    createIdentStr();
-    changeSetClientID();
-    console.log(identStr);
-    
-    // Ждем открытия соединения
-    if (socket && socket.readyState === WebSocket.OPEN) {
-
-      socket.send(JSON.stringify({type: 'connection', clientID: identStr}));
-
-    } else if (socket && socket.readyState === WebSocket.CONNECTING) {
-      // Если соединение устанавливается, ждем
-      const onOpen = () => {
-
-        socket.send(JSON.stringify({type: 'connection', clientID: identStr}));
-
-        socket.removeEventListener('open', onOpen);
-      };
-      socket.addEventListener('open', onOpen);
+  const saveClientID = () => {
+    if (!saveSession) {
+      document.cookie = `auth-betony=${clientID}`;
+      document.cookie = 'save-betony=true';
+      setSaveSession(true);
+    } else {
+      document.cookie = 'auth-betony=; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+      document.cookie = 'save-betony=; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+      setSaveSession(false);
     }
-  }, []);
+  };
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Messenger socket={socket} clientID={clientID} />} />
+        <Route 
+          path="/" 
+          element={
+            <Messenger 
+              socket={socket} 
+              clientID={clientID} 
+              saveSession={saveSession}
+              saveClientID={saveClientID}
+              ref={messengerRef}
+            />
+          } 
+        />
       </Routes>
     </BrowserRouter>
   );
