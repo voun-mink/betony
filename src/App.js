@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import Messenger from './component/messenger/messenger';
 
-const socket = new WebSocket('ws://localhost:8999');
+const socket = new WebSocket('ws://10.25.127.76:8999');
 
 function App() {
 
@@ -12,6 +12,7 @@ function App() {
 
   const [clientID, setClientID] = useState('');
   const [saveSession, setSaveSession] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const changeSetClientID = (id) => {
     setClientID(id);
@@ -58,8 +59,12 @@ function App() {
       return () => document.removeEventListener('load', handleLoad);
     }
 
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+
     return () => {
       window.removeEventListener('beforeunload', handleRemove);
+      window.removeEventListener('resize', handleResize);
     }
   }, []);
 
@@ -129,6 +134,7 @@ function App() {
               saveSession={saveSession}
               saveClientID={saveClientID}
               ref={messengerRef}
+              isMobile={isMobile}
             />
           } 
         />

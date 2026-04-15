@@ -26,7 +26,7 @@ function AddRecordAboutInterlocutor({ additionComponent }) {
                 <input
                     type="text"
                     onChange={changeSetInterlocutorID}
-                    className='m-10 h-30 f-g-1 p-l-10 b-n b-r'
+                    className='m-10 h-30 f-g-1 p-l-10 b-n b-r c-72 f-f-j-M f-s-14 c-p'
                     placeholder="Введите идентификатор"
                 />
             </div>
@@ -35,7 +35,7 @@ function AddRecordAboutInterlocutor({ additionComponent }) {
                 <input
                     type="text"
                     onChange={changeSetAddressingInterlocutor}
-                    className='d-b f-g-1 h-30 m-l-10 m-r-10 p-l-10 b-n b-r'
+                    className='d-b f-g-1 h-30 m-l-10 m-r-10 p-l-10 b-n b-r c-72 f-f-j-M f-s-14 c-p'
                     placeholder="Обращение к собеседнику* "
                 />
             </div>
@@ -44,7 +44,7 @@ function AddRecordAboutInterlocutor({ additionComponent }) {
                     onClick={sendingIDParentComponent}
                     className='d-b m-10 f-g-1 b-n b-c-80 w-100-p b-n h-100-p h-40 c-p b-r'
                 >
-                    <h3 className='f-f-j-R c-w l-s-10 f-s-30 f-w-n m-t--3'>
+                    <h3 className='f-f-j-R c-w l-s-10 f-s-16 f-w-n m-t--3'>
                         Записать
                     </h3>
                 </button>

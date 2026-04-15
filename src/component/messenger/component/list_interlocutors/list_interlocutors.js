@@ -28,31 +28,54 @@ function ListInterlocutors({ interlocutors, additionComponent, offerContact, goC
                     onClick={callUpContactSuggestionList}
                     className='b-c-80 w-100-p b-n h-100-p h-40 c-p b-r'
                 >
-                    <h3 className='f-f-j-R c-w l-s-10 f-s-30 f-w-n m-t--3'>
+                    <h3 className='f-f-j-R c-w l-s-10 f-s-16 f-w-n m-t--3'>
                         список предложений
                     </h3>
                 </button>
             </div>
-            <div className='b-c-E5 b-r f-g-1 d-f f-d-c j-c-s-b'>
+            <div className='b-c-E5 b-r f-g-1 d-f f-d-c j-c-s-b m-b-10'>
                 {
                     interlocutors.length != 0 ? (
                         <div>
                             {
                                 interlocutors.map((interlocutor) => (
-                                    <div>
+                                    <div
+                                        className="m-10 d-f j-c-s-b a-i-c"
+                                    >
                                         <div
                                             style={{ cursor: 'pointer' }}
-                                            onClick={() => callChatDisplayFunction(interlocutor.id)}
                                         >
-                                            <h3 style={{ overflow: 'hidden' }}>{interlocutor.addressing}</h3>
+                                            <h3
+                                                style={{ overflow: 'hidden' }}
+                                                className="f-f-j-R c-72 l-s-1"
+                                            >
+                                                {interlocutor.addressing}
+                                            </h3>
                                         </div>
+                                        {
+                                            interlocutor.contact && (
+                                                <div>
+                                                    <button
+                                                        onClick={() => callChatDisplayFunction(interlocutor.id)}
+                                                        className="b-c-80 w-100-p b-n h-100-p h-30 c-p b-r p-5"
+                                                    >
+                                                        <h3 className="f-f-j-R c-w l-s-10 f-s-14 f-w-n m-t--3">
+                                                            открыть чат
+                                                        </h3>
+                                                    </button>
+                                                </div>
+                                            )
+                                        }
                                         {
                                             !interlocutor.contact && (
                                                 <div>
                                                     <button
                                                         onClick={() => challSendingConsentContact(interlocutor.id)}
+                                                        className="b-c-80 w-100-p b-n h-100-p h-30 c-p b-r p-5"
                                                     >
-                                                        Связаться
+                                                        <h3 className="f-f-j-R c-w l-s-10 f-s-14 f-w-n m-t--3">
+                                                            связаться
+                                                        </h3>
                                                     </button>
                                                 </div>
                                             )
@@ -62,7 +85,11 @@ function ListInterlocutors({ interlocutors, additionComponent, offerContact, goC
                             }
                         </div>
                     ) : (
-                        <div>Собеседники не найдены</div>
+                        <div>
+                            <h3 className='f-f-j-R c-72 l-s-1 m-10 f-s-16'>
+                                Собеседники не найдены
+                            </h3>
+                        </div>
                     )
                 }
                 <div>
@@ -70,19 +97,20 @@ function ListInterlocutors({ interlocutors, additionComponent, offerContact, goC
                         onClick={callComponentAddingInterlocutorRecord}
                         className='b-c-80 w-100-p b-n h-100-p h-40 c-p b-r'
                     >
-                        <h3 className='f-f-j-R c-w l-s-10 f-s-30 f-w-n m-t--3'>
+                        <h3 className='f-f-j-R c-w l-s-10 f-s-16 f-w-n m-t--3'>
                             добавить запись
                         </h3>
                     </button>
                 </div>
             </div>
-            <div>
+            <div className='d-f a-i-c'>
                 <input
-                    type="checkbox"
+                    type='checkbox'
                     onClick={() => saveClientID()}
                     checked={saveSession ? 'checked' : ''}
+                    className='memorization_checkbox b-1-s-g w-20 m-r-10'
                 />
-                <label>запомнить меня</label>
+                <label className='f-f-j-R c-72 l-s-1'>запомнить меня</label>
             </div>
         </div>
     );

@@ -18,11 +18,17 @@
 .w-100 {
   width: 100vw;
 }
+.w-5-p {
+  width: 5%;
+}
 .w-10-p {
   width: 10%;
 }
 .w-20-p {
   width: 20%;
+}
+.w-40-p {
+  width: 80%;
 }
 .w-80-p {
   width: 80%;
@@ -94,14 +100,17 @@
 .f-s-100 {
   font-size: 100px;
 }
-.f-s-14 {
-  font-size: 14px;
+.f-s-56 {
+  font-size: 56px;
 }
 .f-s-24 {
   font-size: 24px;
 }
-.f-s-30 {
+.f-s-16 {
   font-size: 16px;
+}
+.f-s-14 {
+  font-size: 14px;
 }
 
 
@@ -166,6 +175,37 @@
   background-color: #B3B792;
 }
 
+.memorization_checkbox {
+  width: 20px;
+  height: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid gray;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.memorization_checkbox:checked {
+  background-color: #809570;
+  border-color: #809570;
+}
+
+.memorization_checkbox:after {
+  content: '✓';
+  position: absolute;
+  color: white;
+  font-size: 14px;
+  left: 3px;
+  top: -1px;
+}
+
+.w-200 {
+  width: 200px;
+}
+.w-20 {
+  width: 20px;
+}
 .w-450 {
   width: 450px;
 }
@@ -206,7 +246,7 @@
   cursor: pointer;
 }
 
-.input {
+input {
   outline: none;
 }
 
@@ -216,6 +256,10 @@
 
 .m-10 {
   margin: 10px;
+}
+
+.o-h {
+  overflow: hidden;
 }
 
 .o-w-b-w {
@@ -232,6 +276,10 @@
 
 .a-s-f-s {
   align-self: flex-start;
+}
+
+.a-i-c {
+  align-items: center;
 }
 
 .f-n {
