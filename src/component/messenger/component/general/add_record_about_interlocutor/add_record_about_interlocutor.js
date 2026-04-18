@@ -20,8 +20,7 @@ function AddRecordAboutInterlocutor({ additionComponent }) {
     };
 
     return (
-        <div className='w-20-p m-10 b-r b-c-E5'>
-            {/* <h3 className='f-f-j-R c-72 l-s-10 f-s-30 f-w-n m-t--3 m-10'>Введите идентификатор</h3> */}
+        <div className='f-g-1 p-l-10 p-b-10 p-r-10 b-r b-c-E5 m-10'>
             <div className="d-f">
                 <input
                     type="text"
@@ -30,7 +29,6 @@ function AddRecordAboutInterlocutor({ additionComponent }) {
                     placeholder="Введите идентификатор"
                 />
             </div>
-            {/* <h3 className='f-f-j-R c-72 l-s-10 f-s-30 f-w-n m-t--3 m-10 '>{`Обращение к собеседнику* `}</h3> */}
             <div className="d-f">
                 <input
                     type="text"

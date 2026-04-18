@@ -1,7 +1,6 @@
 import { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
-import ListInterlocutors from './component/list_interlocutors/list_interlocutors';
-import AddRecordAboutInterlocutor from './component/add_record_about_interlocutor/add_record_about_interlocutor';
-import ContactsSuggestionList from './component/contacts_suggestion_list/contacts_suggestion_list';
+import Desktop from './component/desktop';
+import Mobile from './component/mobile';
 
 const Messenger = forwardRef((props, ref) => {
     const [message, setMessage] = useState('');
@@ -12,6 +11,7 @@ const Messenger = forwardRef((props, ref) => {
     const [contactsSuggestionList, setContactsSuggestionList] = useState(false);
     const [chatDisplay, setChatDisplay] = useState(false);
     const [idCurrentChat, setIdCurrentChat] = useState('');
+    const [mobileMenu, setMobileMenu] = useState(false);
 
     const changeSetMessage = (e) => {
         setMessage(e.target.value);
@@ -49,6 +49,7 @@ const Messenger = forwardRef((props, ref) => {
             message: message
         }));
         changeSetMessageHistory(idCurrentChat, message);
+        setMessage('');
     };
 
     const displComponentAddingRecordAboutColleague = (state) => {
@@ -106,6 +107,10 @@ const Messenger = forwardRef((props, ref) => {
 
     const copyingId = () => {
         navigator.clipboard.writeText(props.clientID);
+    };
+
+    const changeSetMobileMenu = (current_status) => {
+        setMobileMenu(!current_status);
     };
 
     useImperativeHandle(ref, () => ({
@@ -169,9 +174,18 @@ const Messenger = forwardRef((props, ref) => {
                                 className='t-a-c'
                             >
                                 <h1 
-                                    className={`p-t-20-p c-d2 f-f-r-m-o-r ${props.isMobile ? 'f-s-56' : 'f-s-100'}`}
-                                >пусто</h1>
-                                <h5 className='f-f-j-R c-72 l-s-1'>вы пока не выбрали собеседника для общения</h5>
+                                    className={`p-t-20-p c-d2 f-f-r-m-o-r ${props.isMobile ? 'f-s-56 p-t-40-p' : 'f-s-100 p-t-20-p'}`}
+                                >
+                                    пусто
+                                </h1>
+                                {
+                                    !props.isMobile &&
+                                        <h5 className='f-f-j-R c-72 l-s-1'>вы пока не выбрали собеседника для общения</h5>
+                                }
+                                {
+                                    props.isMobile &&
+                                        <h5 className='f-f-j-R c-72 l-s-1'>собеседник не выбран</h5>
+                                }
                                 <button
                                     className={`b-c-80 b-n h-60 b-r l-s-1 m-t-5-p c-p ${props.isMobile ? 'w-200' : 'w-450'}`}
                                     onClick={() => displComponentAddingRecordAboutColleague(true)}
@@ -186,13 +200,20 @@ const Messenger = forwardRef((props, ref) => {
                 {
                     !chatDisplay &&
                         <div className={`h-5-p ${props.isMobile ? 'w-100-p' : 'w-100-p'}`}>
-                            <div className={`d-f j-c-c ${props.isMobile ? 'w-100-p' : 'w-100-p'}`}>
+                            <div className={`d-f j-c-c ${props.isMobile ? 'w-80-p m-l-a m-r-a' : 'w-100-p'}`}>
                                 <div className='b-c-E5 d-f w-m-c p-5 b-r o-h'>
-                                    <h3 className='c-72 m-r-10'>
+                                    <h3 className='c-72 m-r-10' style={{flexGrow: '1' }}>
                                         ваш id:
                                     </h3>
-                                    <h3 className='c-72 o-h f-g-1'>
-                                        {props.clientID}
+                                    <h3 className='c-72 o-h ' style={{flex: '0 0 auto'}}>
+                                        {
+                                            !props.isMobile &&
+                                                props.clientID
+                                        }
+                                        {
+                                            props.isMobile &&
+                                                props.clientID.slice(0, 4) + '...'
+                                        }
                                     </h3>
                                 </div>
                                 <div className='m-l-10'>
@@ -207,39 +228,59 @@ const Messenger = forwardRef((props, ref) => {
                         </div>
                 }
             </div>
-            <div
-                style={props.isMobile ? {display: 'none'} : {display: 'block'}}
-            >
-                {
-                    (!newRecordAboutInterlocutor  && !contactsSuggestionList) &&
-                        <ListInterlocutors
-                            interlocutors={interlocutors}
-                            additionComponent={displComponentAddingRecordAboutColleague}
-                            offerContact={sendOfferContact}
-                            goContactSuggestionList={displListContactProviders}
-                            chatSelection={chatSelection}
-                            saveClientID={props.saveClientID}
-                            saveSession={props.saveSession}
-                        />
-                }
-                {
-                    (newRecordAboutInterlocutor && !contactsSuggestionList) && 
-                        <AddRecordAboutInterlocutor 
-                            additionComponent={saveIDAddedInterlocutor}
-                        />
-                }
-                {
-                    (contactsSuggestionList && !newRecordAboutInterlocutor) &&
-                        <ContactsSuggestionList
-                            contactsList={contactProvidersIDs}
-                            listInterlocutors={displListInterlocutors}
-                            consentProposal={sendConsentOffer}
-                        />
-                }
-            </div>
-            {/* <div>
-
-            </div> */}
+            {
+                props.isMobile &&
+                    <button
+                        className='b-c-80 p-a t-15 r-15 b-r w-30 h-30 d-f a-i-c j-c-c b-n c-p'
+                        onClick={() => changeSetMobileMenu(mobileMenu)}
+                    >
+                        <span className='w-24 h-24'>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="6" r="1.5" fill="white"/>
+                                <circle cx="12" cy="12" r="1.5" fill="white"/>
+                                <circle cx="12" cy="18" r="1.5" fill="white"/>
+                            </svg>
+                        </span>
+                    </button>
+            }
+            {
+                !props.isMobile &&
+                    <Desktop
+                        newRecordAboutInterlocutor={newRecordAboutInterlocutor}
+                        contactsSuggestionList={contactsSuggestionList}
+                        interlocutors={interlocutors}
+                        displComponentAddingRecordAboutColleague={displComponentAddingRecordAboutColleague}
+                        offerContact={sendOfferContact}
+                        goContactSuggestionList={displListContactProviders}
+                        chatSelection={chatSelection}
+                        saveClientID={props.saveClientID}
+                        saveSession={props.saveSession}
+                        saveIDAddedInterlocutor={saveIDAddedInterlocutor}
+                        contactsList={contactProvidersIDs}
+                        listInterlocutors={displListInterlocutors}
+                        consentProposal={sendConsentOffer}
+                    />
+            }
+            {
+                props.isMobile &&
+                    <Mobile
+                        display={mobileMenu}
+                        changeDisplay={changeSetMobileMenu}
+                        newRecordAboutInterlocutor={newRecordAboutInterlocutor}
+                        contactsSuggestionList={contactsSuggestionList}
+                        interlocutors={interlocutors}
+                        displComponentAddingRecordAboutColleague={displComponentAddingRecordAboutColleague}
+                        offerContact={sendOfferContact}
+                        goContactSuggestionList={displListContactProviders}
+                        chatSelection={chatSelection}
+                        saveClientID={props.saveClientID}
+                        saveSession={props.saveSession}
+                        saveIDAddedInterlocutor={saveIDAddedInterlocutor}
+                        contactsList={contactProvidersIDs}
+                        listInterlocutors={displListInterlocutors}
+                        consentProposal={sendConsentOffer}
+                    />
+            }
         </div>
     );
 });

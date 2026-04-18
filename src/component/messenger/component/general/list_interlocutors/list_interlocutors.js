@@ -1,4 +1,6 @@
-function ListInterlocutors({ interlocutors, additionComponent, offerContact, goContactSuggestionList, chatSelection, saveClientID, saveSession }) {
+import ButtonSuggestionList from '../transition_button/suggestion_list/suggestion_list';
+
+function ListInterlocutors({ interlocutors, additionComponent, offerContact, goContactSuggestionList, chatSelection, saveClientID, saveSession, mobile, display, changeDisplay }) {
 
     const callComponentAddingInterlocutorRecord = () => {
         additionComponent(true);
@@ -8,31 +10,26 @@ function ListInterlocutors({ interlocutors, additionComponent, offerContact, goC
         offerContact(id);
     };
 
-    const callUpContactSuggestionList = () => {
-        goContactSuggestionList(true);
-    };
-
     const challSendingConsentContact = (id) => {
         sendOfferContact(id);
     };
 
     const callChatDisplayFunction = (id) => {
-        // console
         chatSelection(id);
+        if (mobile) {
+            changeDisplay(display);
+        }
     };
 
     return (
-        <div className='w-20-p m-10 b-r d-f j-c-s-b f-d-c'>
-            <div className='m-b-10'>
-                <button
-                    onClick={callUpContactSuggestionList}
-                    className='b-c-80 w-100-p b-n h-100-p h-40 c-p b-r'
-                >
-                    <h3 className='f-f-j-R c-w l-s-10 f-s-16 f-w-n m-t--3'>
-                        список предложений
-                    </h3>
-                </button>
-            </div>
+        <div className='f-g-1 p-l-10 p-b-10 p-r-10 b-r d-f j-c-s-b f-d-c'>
+            {
+                !mobile &&
+                    <ButtonSuggestionList
+                        mobile={true}
+                        goContactSuggestionList={goContactSuggestionList}
+                    />
+            }
             <div className='b-c-E5 b-r f-g-1 d-f f-d-c j-c-s-b m-b-10'>
                 {
                     interlocutors.length != 0 ? (
@@ -43,10 +40,9 @@ function ListInterlocutors({ interlocutors, additionComponent, offerContact, goC
                                         className="m-10 d-f j-c-s-b a-i-c"
                                     >
                                         <div
-                                            style={{ cursor: 'pointer' }}
+                                            className='f-g-1 o-h'
                                         >
                                             <h3
-                                                style={{ overflow: 'hidden' }}
                                                 className="f-f-j-R c-72 l-s-1"
                                             >
                                                 {interlocutor.addressing}
@@ -54,7 +50,7 @@ function ListInterlocutors({ interlocutors, additionComponent, offerContact, goC
                                         </div>
                                         {
                                             interlocutor.contact && (
-                                                <div>
+                                                <div className='f-0-0-a'>
                                                     <button
                                                         onClick={() => callChatDisplayFunction(interlocutor.id)}
                                                         className="b-c-80 w-100-p b-n h-100-p h-30 c-p b-r p-5"

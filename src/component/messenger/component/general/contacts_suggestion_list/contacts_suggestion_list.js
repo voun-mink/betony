@@ -1,26 +1,21 @@
-function ContactsSuggestionList({ contactsList, listInterlocutors, consentProposal }) {
+import ButtonListInterlocutors from '../transition_button/list_interlocutors/list_interlocutors'
 
-    const goListInterlocutors = () => {
-        listInterlocutors();
-    };
+function ContactsSuggestionList({ contactsList, listInterlocutors, consentProposal, mobile }) {
 
     const sendConsentProposal = (id) => {
         consentProposal(id);
     };
 
     return (
-        <div  className='w-20-p m-10 b-r d-f j-c-s-b f-d-c'>
-            <div className='m-b-10'>
-                <button
-                    onClick={goListInterlocutors}
-                    className='b-c-80 w-100-p b-n h-100-p h-40 c-p b-r'
-                >
-                    <h3 className='f-f-j-R c-w l-s-10 f-s-16 f-w-n m-t--3'>
-                        список собеседников
-                    </h3>
-                </button>
-            </div>
-            <div className='b-c-E5 b-r f-g-1 d-f f-d-c j-c-s-b'>
+        <div  className='f-g-1 p-l-10 p-b-10 p-r-10 b-r d-f j-c-s-b f-d-c'>
+            {
+                !mobile &&
+                    <ButtonListInterlocutors
+                        mobile={true}
+                        listInterlocutors={listInterlocutors}
+                    />
+            }
+            <div className='b-c-E5 b-r f-g-1 d-f f-d-c j-c-s-b h-100-p h-40'>
                 {
                     contactsList.length > 0 ? (
                         contactsList.map((suggest) => (

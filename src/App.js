@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import Messenger from './component/messenger/messenger';
 
-const socket = new WebSocket('ws://10.25.127.76:8999');
+const socket = new WebSocket('ws://10.68.76.76:8999');
 
 function App() {
 
