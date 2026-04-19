@@ -1,6 +1,6 @@
 import { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
-import Desktop from './component/desktop';
-import Mobile from './component/mobile';
+import Desktop from './views/desktop.view';
+import Mobile from './views/mobile.view';
 
 const Messenger = forwardRef((props, ref) => {
     const [message, setMessage] = useState('');
@@ -17,21 +17,33 @@ const Messenger = forwardRef((props, ref) => {
         setMessage(e.target.value);
     };
 
-    const changeSetMessageHistory = (interlocutorID, message=null) => {
-        console.log(interlocutorID in messageHistory);
-        console.log(message == null);
-        if (!(interlocutorID in messageHistory) && (message == null)) {
+    const changeSetMessageHistory = (interlocutorID, message=null, removal=false) => {
+        if (!(interlocutorID in messageHistory) && (message == null) && (removal == false)) {
             setMessageHistory({
                 ...messageHistory,
                 [interlocutorID]: []
             });
         }
         if (interlocutorID in messageHistory && message != null) {
-            console.log(message);
             setMessageHistory({
                 ...messageHistory,
                 [interlocutorID]: [...messageHistory[interlocutorID], message]
             });
+        }
+        if (!(interlocutorID in messageHistory) && message != null) {
+            setMessageHistory({
+                ...messageHistory,
+                [interlocutorID]: [message]
+            });
+        }
+        if ((interlocutorID in messageHistory) && (message == null) && (removal == true)) {
+            let copyMessageHistory = messageHistory;
+            delete copyMessageHistory[interlocutorID];
+            
+            setMessageHistory(copyMessageHistory);
+            setIdCurrentChat('');
+            setChatDisplay(false);
+            setInterlocutors(interlocutors.filter(interlocutor => interlocutor.id != interlocutorID));
         }
     };
 
@@ -54,6 +66,7 @@ const Messenger = forwardRef((props, ref) => {
 
     const displComponentAddingRecordAboutColleague = (state) => {
         setNewRecordAboutInterlocutor(state);
+        changeSetMobileMenu(mobileMenu)
     };
 
     const saveIDAddedInterlocutor = (obj) => {
@@ -79,7 +92,6 @@ const Messenger = forwardRef((props, ref) => {
     };
 
     const displListInterlocutors = () => {
-        console.log(interlocutors);
         setNewRecordAboutInterlocutor(false); 
         setContactsSuggestionList(false);
     }; 
@@ -131,6 +143,29 @@ const Messenger = forwardRef((props, ref) => {
         },
         changeSMH: (interlocutorID, message) => {
             changeSetMessageHistory(interlocutorID, message);
+        },
+        deletingInterlocutors: (interlocutorID) => {
+            changeSetMessageHistory(interlocutorID, null, true);
+        },
+        updatingIDInterlocutors: (previous_id, current_id) => {
+            let indexInterlocator = interlocutors.indexOf(interlocutors.filter(interlocator => interlocator.id == previous_id)[0]);
+
+            if (indexInterlocator != -1) {
+
+                let copyInterlocutors = interlocutors;
+                copyInterlocutors[indexInterlocator].id = current_id
+
+                setInterlocutors(copyInterlocutors);
+
+            }
+
+            if (messageHistory[previous_id] != undefined) {
+                let copyMessageHistory = messageHistory;
+                copyMessageHistory[current_id] = messageHistory[previous_id];
+                delete copyMessageHistory[previous_id];
+                setMessageHistory(copyMessageHistory);
+                setIdCurrentChat(current_id);
+            }
         }
     }))
 
@@ -156,6 +191,7 @@ const Messenger = forwardRef((props, ref) => {
                                     <input
                                         onChange={changeSetMessage}
                                         className='b-1-s-g w-90-p b-r b-1-s-72 p-l-10 p-r-10 input'
+                                        value={message}
                                     />
                                     <button
                                         onClick={sendingMessage}

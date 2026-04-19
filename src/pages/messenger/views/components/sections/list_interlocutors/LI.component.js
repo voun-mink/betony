@@ -1,4 +1,4 @@
-import ButtonSuggestionList from '../transition_button/suggestion_list/suggestion_list';
+import ButtonSuggestionList from '../../buttons/button_suggestion_list/BSL.component'
 
 function ListInterlocutors({ interlocutors, additionComponent, offerContact, goContactSuggestionList, chatSelection, saveClientID, saveSession, mobile, display, changeDisplay }) {
 

@@ -1,8 +1,8 @@
-import ListInterlocutors from './general/list_interlocutors/list_interlocutors';
-import AddRecordAboutInterlocutor from './general/add_record_about_interlocutor/add_record_about_interlocutor';
-import ContactsSuggestionList from './general/contacts_suggestion_list/contacts_suggestion_list';
-import ButtonSuggestionList from './general/transition_button/suggestion_list/suggestion_list';
-import ButtonListInterlocutors from './general/transition_button/list_interlocutors/list_interlocutors';
+import ListInterlocutors from './components/sections/list_interlocutors/LI.component';
+import AddRecordAboutInterlocutor from './components/sections/add_record_about_interlocutor/ARAI.component';
+import ContactsSuggestionList from './components/sections/contacts_suggestion_list/CSL.component';
+import ButtonSuggestionList from './components/buttons/button_suggestion_list/BSL.component';
+import ButtonListInterlocutors from './components/buttons/button_list_interlocutors/BLI.component';
 
 function Mobile({
     display, 

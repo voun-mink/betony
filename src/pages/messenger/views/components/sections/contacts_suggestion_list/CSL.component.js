@@ -1,4 +1,4 @@
-import ButtonListInterlocutors from '../transition_button/list_interlocutors/list_interlocutors'
+import ButtonListInterlocutors from '../../buttons/button_list_interlocutors/BLI.component';
 
 function ContactsSuggestionList({ contactsList, listInterlocutors, consentProposal, mobile }) {
 

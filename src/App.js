@@ -2,9 +2,9 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
-import Messenger from './component/messenger/messenger';
+import Messenger from './pages/messenger/messenger';
 
-const socket = new WebSocket('ws://10.68.76.76:8999');
+const socket = new WebSocket('ws://10.65.193.76:8999');
 
 function App() {
 
@@ -13,9 +13,15 @@ function App() {
   const [clientID, setClientID] = useState('');
   const [saveSession, setSaveSession] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [reloadedPage, setReloadedPage] = useState(false);
 
   const changeSetClientID = (id) => {
     setClientID(id);
+    document.cookie = `auth-betony=${id}`;
+  };
+
+  const changeSetReloadedPage = (state) => {
+    setReloadedPage(state);
   };
 
   function getCookie(name) {
@@ -39,12 +45,14 @@ function App() {
       const reloaded = localStorage.getItem('reloaded');
 
       if (reloaded === 'true') {
+        changeSetReloadedPage(true);
         const saveState = getCookie('save-betony');
+
         if (saveState == 'true') {
-          const currentClientID = getCookie('auth-betony');
+          // const currentClientID = getCookie('auth-betony');
 
           setSaveSession(true);
-          setClientID(currentClientID);
+          // setClientID(currentClientID);
         }
         localStorage.removeItem('reloaded');
       }
@@ -69,13 +77,13 @@ function App() {
   }, []);
 
   socket.onopen = function() {
-    const currentClientID = getCookie('auth-betony');
+    const authClientID = getCookie('auth-betony');
     
-    if (!saveSession && currentClientID == null) {
+    if (saveSession && authClientID != null) {
       if (socket.readyState === WebSocket.OPEN) {
         socket.send(JSON.stringify({
-          type: 'connection',
-          clientID: currentClientID
+          type: 'identification_id',
+          clientID: authClientID
         }));
       }
     }
@@ -84,9 +92,10 @@ function App() {
 
   socket.onmessage = function(event) {
     let data = JSON.parse(event.data);
+    const authClientID = getCookie('auth-betony');
 
     if (data.type == 'connection') {
-      changeSetClientID(data.clientID);
+      changeSetClientID(data.clientId);
     }
 
     if (data.type == 'offer_contact') {
@@ -98,7 +107,20 @@ function App() {
     }
 
     if (data.type == 'message') {
+      console.log(data.message);
       messengerRef.current.changeSMH(data.interlocutorID, data.message);
+    }
+
+    if (data.type == 'inactive_interlocutor') {
+      console.log(data.interlocutorID);
+      messengerRef.current.deletingInterlocutors(data.interlocutorID);
+    }
+
+    if (data.type == 'identification_id') {
+      if (data.previous_id != authClientID) {
+        console.log(2);
+        messengerRef.current.updatingIDInterlocutors(data.previous_id, data.current_id);
+      }
     }
   }
 
@@ -115,6 +137,10 @@ function App() {
       document.cookie = `auth-betony=${clientID}`;
       document.cookie = 'save-betony=true';
       setSaveSession(true);
+      socket.send(JSON.stringify({
+        type: 'remembering_id',
+        clientId: clientID
+      }))
     } else {
       document.cookie = 'auth-betony=; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
       document.cookie = 'save-betony=; expires=Thu, 01 Jan 1970 00:00:00 UTC;';

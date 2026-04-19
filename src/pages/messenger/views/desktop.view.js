@@ -1,6 +1,6 @@
-import ListInterlocutors from './general/list_interlocutors/list_interlocutors';
-import AddRecordAboutInterlocutor from './general/add_record_about_interlocutor/add_record_about_interlocutor';
-import ContactsSuggestionList from './general/contacts_suggestion_list/contacts_suggestion_list';
+import ListInterlocutors from './components/sections/list_interlocutors/LI.component';
+import AddRecordAboutInterlocutor from './components/sections/add_record_about_interlocutor/ARAI.component';
+import ContactsSuggestionList from './components/sections/contacts_suggestion_list/CSL.component';
 
 function Desktop({
     newRecordAboutInterlocutor,
